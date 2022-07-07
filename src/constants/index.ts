@@ -1,0 +1,4 @@
+export const DASHBOARD_LAYOUT = {
+  SIDEBAR_WIDTH: 260,
+  HEADER_HEIGHT: 60,
+};

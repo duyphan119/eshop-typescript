@@ -1,0 +1,17 @@
+.main {
+  .wrapper {
+    position: fixed;
+    display: flex;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid gray;
+    .body {
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px;
+      border-left: 1px solid gray;
+      background-color: #f4f4f4;
+    }
+  }
+}
