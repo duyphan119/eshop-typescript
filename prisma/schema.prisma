@@ -1,0 +1,245 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email String @unique
+  hash String
+  telephone String @unique
+  isAdmin Boolean @default(false)
+
+  fullName String?
+  city String?
+  district String?
+  ward String?
+  address String?
+
+  cart Cart?
+  orders Order[]
+  productUsers ProductUser[]
+
+  @@map("users")
+}
+
+model Category{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  slug String @unique
+  sku String @unique
+  products Product[]
+  parentId Int? @map("categoryId")
+  parent Category? @relation("CategoryToCategory",fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToCategory")
+
+  @@map("categories")
+}
+
+model Product{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  slug String @unique
+  price Int
+  thumbnail String
+  categoryId Int
+  description String
+  category Category @relation(fields: [categoryId], references: [id])
+
+  newPrice Int?
+  productOptions ProductOption[]
+  productUsers ProductUser[]
+  productColorImages ProductColorImage[]
+
+
+  @@map("products")
+}
+
+model Color{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  code String
+  sku String @unique
+
+  productOptions ProductOption[]
+  productColorImages ProductColorImage[]
+
+  @@map("colors")
+}
+
+model ProductColorImage{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  colorId Int
+  productId Int
+  path String
+  fileName String
+  width Int
+  height Int
+  color Color @relation(fields: [colorId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Size{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  sku String @unique
+
+  productOptions ProductOption[]
+
+  @@map("sizes")
+}
+
+model ProductOption{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  colorId Int
+  sizeId Int
+  productId Int
+  amount Int @default(0)
+  sku String @unique
+  color Color @relation(fields: [colorId], references: [id])
+  size Size @relation(fields: [sizeId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  cartItems CartItem[]
+  orderItems OrderItem[]
+
+  @@map("productOptions")
+}
+
+model Cart{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int @unique
+  count Int @default(0)
+  total Int @default(0)
+  user User @relation(fields: [userId], references: [id])
+
+  cartItems CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cartId Int
+  productOptionId Int
+  quantity Int
+  cart Cart @relation(fields: [cartId], references: [id])
+  productOption ProductOption @relation(fields: [productOptionId], references: [id])
+
+  @@map("cartItems")
+}
+
+model OrderStatus{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  status String
+  allowCancel Boolean
+  isCompleted Boolean
+
+  orders Order[]
+
+  @@map("orderStatuses")
+}
+
+model Coupon{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  percent Float
+  code String @unique
+  start DateTime
+  finish DateTime
+
+  orders Order[]
+
+  @@map("coupons")
+}
+
+model Order{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  city String
+  district String
+  ward String
+  address String
+  telephone String
+  fullName String
+  total Int
+
+  orderStatusId Int
+  couponId Int
+  userId Int
+  orderStatus OrderStatus @relation(fields: [orderStatusId], references: [id])
+  coupon Coupon @relation(fields: [couponId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  orderItems OrderItem[]
+
+  @@map("orders")
+}
+model OrderItem{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderId Int
+  productOptionId Int
+  quantity Int
+  productPrice Int
+  order Order @relation(fields: [orderId], references: [id])
+  productOption ProductOption @relation(fields: [productOptionId], references: [id])
+
+  @@map("orderItems")
+}
+
+model ProductUser{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId Int
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("productUsers")
+}
