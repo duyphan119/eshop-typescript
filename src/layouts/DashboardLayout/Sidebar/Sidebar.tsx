@@ -4,6 +4,7 @@ import {
   FormOutlined,
   TableOutlined,
 } from "@ant-design/icons";
+import { Tooltip } from "antd";
 import classNames from "classnames/bind";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -65,9 +66,21 @@ const Sidebar: React.FC<Props> = (props: Props) => {
                   location.pathname === item.path ? cx("active") : ""
                 }`}
               >
-                <span className={cx("menu-item-link-icon")}>{item.icon}</span>
-                {isFull && (
-                  <span className={cx("menu-item-link-text")}>{item.text}</span>
+                {isFull ? (
+                  <>
+                    <span className={cx("menu-item-link-icon")}>
+                      {item.icon}
+                    </span>
+                    <span className={cx("menu-item-link-text")}>
+                      {item.text}
+                    </span>
+                  </>
+                ) : (
+                  <Tooltip placement="right" title={item.text}>
+                    <span className={cx("menu-item-link-icon")}>
+                      {item.icon}
+                    </span>
+                  </Tooltip>
                 )}
               </Link>
             </li>

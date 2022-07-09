@@ -1,5 +1,6 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import Loading from "./components/Loading";
 import { publicRoutes, RouteType } from "./routes";
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
   }
 
   return (
-    <React.Suspense fallback={<div>loading...</div>}>
+    <React.Suspense fallback={<Loading />}>
       {showRoutes(publicRoutes)}
     </React.Suspense>
   );

@@ -14,10 +14,11 @@ const { useBreakpoint } = Grid;
 const DashboardLayout: React.FC<Props> = (props: Props) => {
   const { children } = props;
   const screens = useBreakpoint();
+  const [isFull, setIsFull] = React.useState(screens.xl);
 
   return (
     <div className={cx("main")}>
-      <Header />
+      <Header onClick={() => setIsFull(!isFull)} />
       <div
         className={cx("wrapper")}
         style={{
@@ -26,14 +27,14 @@ const DashboardLayout: React.FC<Props> = (props: Props) => {
         }}
       >
         <Sidebar
-          width={screens.lg ? DASHBOARD_LAYOUT.SIDEBAR_WIDTH : 52}
-          isFull={screens.lg}
+          width={isFull && screens.xl ? DASHBOARD_LAYOUT.SIDEBAR_WIDTH : 52}
+          isFull={isFull && screens.xl}
         />
 
         <div
           className={`${cx("body")} custom-scrollbar`}
           style={{
-            left: screens.lg ? DASHBOARD_LAYOUT.SIDEBAR_WIDTH : 52,
+            left: isFull && screens.xl ? DASHBOARD_LAYOUT.SIDEBAR_WIDTH : 52,
             top: DASHBOARD_LAYOUT.HEADER_HEIGHT,
           }}
         >

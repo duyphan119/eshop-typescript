@@ -1,0 +1,31 @@
+.register-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to top, rgb(44, 44, 206), rgb(193, 38, 193));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .box {
+    width: 520px;
+    padding: 32px;
+    background-color: #fff;
+    h4 {
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+      font-size: 28px;
+    }
+    .msg-error {
+      margin: 2px 0;
+      color: red;
+      text-align: center;
+    }
+    .links {
+      text-decoration: underline;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin: 2px 0;
+    }
+  }
+}

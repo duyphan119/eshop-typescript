@@ -4,4 +4,7 @@ export const routes: any = {
   form: "/form",
   table: "/table",
   report: "/report",
+  categoryList: "/dashboard/category",
+  login: "/login",
+  register: "/register",
 };

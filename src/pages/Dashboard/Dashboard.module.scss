@@ -1,0 +1,60 @@
+.widget {
+  background-color: #fff;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  .widget-title {
+    font-weight: bold;
+  }
+  .widget-value {
+    font-size: 24px;
+  }
+  .widget-compare {
+    font-style: italic;
+    font-size: 14px;
+    &.up {
+      color: rgb(39, 179, 39);
+    }
+    &.down {
+      color: #f11;
+    }
+  }
+  .widget-icon {
+    font-size: 30px;
+  }
+}
+.paper {
+  padding: 16px;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative;
+  .revenue-today {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 40px;
+  }
+  .top-products {
+    .product {
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+      .product-left {
+        display: flex;
+        align-items: center;
+      }
+      .product-right {
+        display: flex;
+        flex-direction: column;
+        margin-left: 8px;
+      }
+    }
+  }
+  .view-more {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    text-decoration: underline;
+  }
+}
