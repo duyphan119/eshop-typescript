@@ -1,0 +1,26 @@
+.quantity-wrapper {
+	.quantity {
+		display: flex;
+		align-items: center;
+		width: 92px;
+		.quantity-change {
+			cursor: pointer;
+			width: 28px;
+			height: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid gray;
+			user-select: none;
+		}
+		input {
+			width: 36px;
+			height: 28px;
+			outline: none;
+			border: none;
+			text-align: center;
+			border-top: 1px solid gray;
+			border-bottom: 1px solid gray;
+		}
+	}
+}

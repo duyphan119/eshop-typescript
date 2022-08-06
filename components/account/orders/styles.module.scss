@@ -1,0 +1,30 @@
+.price-result-list {
+	width: 160px;
+	margin-left: auto;
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		span {
+			&:first-child {
+				font-weight: 500;
+			}
+		}
+	}
+}
+
+.info-list {
+	li {
+		display: flex;
+		align-items: center;
+		span {
+			&:last-child {
+				flex: 1;
+			}
+			&:first-child {
+				font-weight: 500;
+				width: 90px;
+			}
+		}
+	}
+}

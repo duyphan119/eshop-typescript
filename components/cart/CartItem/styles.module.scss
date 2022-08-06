@@ -1,0 +1,32 @@
+.quantity-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 28px;
+	.action {
+		cursor: pointer;
+		width: 24px;
+		border: 1px solid gray;
+		height: 28px;
+	}
+	.quantity {
+		input {
+			width: 32px;
+			text-align: center;
+			outline: none;
+			border: none;
+			height: 28px;
+			border-top: 1px solid gray;
+			border-bottom: 1px solid gray;
+		}
+	}
+}
+.icon-delete {
+	font-size: 20px;
+	cursor: pointer;
+	color: rgb(211, 40, 40);
+	&:hover {
+		color: red;
+	}
+}

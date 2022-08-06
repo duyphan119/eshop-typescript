@@ -1,0 +1,45 @@
+.select-option-wrapper {
+	margin-top: 8px;
+	.option-result {
+		span {
+			font-weight: 500;
+			color: gray;
+		}
+	}
+	.option-list {
+		font-size: 12px;
+		display: flex;
+		list-style: none;
+		flex-wrap: wrap;
+		margin: 0;
+		li {
+			cursor: pointer;
+			border: 1px solid gray;
+			padding: 0 4px;
+			margin-right: 8px;
+			border-radius: 2px;
+			min-width: 24px;
+			height: 24px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			user-select: none;
+			&.active {
+				background-color: var(--primary-color);
+				color: #fff;
+			}
+		}
+	}
+}
+.status {
+	margin-top: 8px;
+	display: flex;
+	align-items: center;
+	span:last-child {
+		margin-left: 8px;
+		color: gray;
+		&.in-stock {
+			color: red;
+		}
+	}
+}

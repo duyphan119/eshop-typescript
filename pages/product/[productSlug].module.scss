@@ -1,0 +1,48 @@
+.main {
+	margin-block: 32px;
+	.thumbnail {
+		img {
+			border: 1px solid gray;
+			width: 100%;
+		}
+	}
+
+	.actions {
+		display: flex;
+		align-items: center;
+		margin-top: 16px;
+
+		.btn-add-to-cart {
+			margin-left: 16px;
+			height: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			background-color: var(--primary-color);
+			color: #fff;
+			border-radius: 2px;
+			padding: 0 16px;
+			font-size: 12px;
+			border: 1px solid var(--primary-color);
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+		.icon-wishlist {
+			margin-left: 16px;
+			border-radius: 50%;
+			border: 1px solid #000;
+			width: 28px;
+			height: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			span {
+				font-size: 16px;
+				transform: translateY(1px);
+			}
+		}
+	}
+}
