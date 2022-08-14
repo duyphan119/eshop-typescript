@@ -7,6 +7,7 @@ const seed = async () => {
 				name: "ADMIN",
 			},
 		});
+		console.log(roleAdmin);
 		const roleCustomer = await db.role.create({
 			data: {
 				name: "CUSTOMER",
