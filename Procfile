@@ -1,2 +1,2 @@
 # Procfile
-web: npx prisma db seed
+web: npx prisma migrate dev && npx prisma db seed
