@@ -1,0 +1,335 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Role {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  name String
+  users UserRole[]
+  deletedAt DateTime?
+}
+
+
+model User {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  fullName String
+  email        String        @unique
+  hash         String
+  avatar       String        @default("")
+  phone        String        @unique
+  roles UserRole[]
+  orders       Order[]
+  cart Cart?
+  votes        Vote[]
+  repVotes     RepVote[]
+  products ProductUser[]
+  comments     Comment[]
+  repComments  RepComment[]
+  deletedAt DateTime?
+}
+model UserRole {
+  userId Int
+  roleId Int
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+  assignedAt DateTime @default(now())
+  @@id([userId, roleId])
+}
+
+
+model CategoryType {
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  name       String     @default("Product List")
+  categories Category[]
+  deletedAt DateTime?
+}
+
+model Category {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  title               String
+  name                String            @default("")
+  description         String            @default("")
+  slug                String            @unique
+  thumbnail           String            @default("")
+  categoryTypeId      Int?
+  categoryType        CategoryType?     @relation(fields: [categoryTypeId], references: [id])
+  parentId            Int?              @map("categoryId")
+  parent              Category?         @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children            Category[]        @relation("CategoryToCategory")
+  products   ProductCategory[]
+  deletedAt DateTime?
+}
+
+model ProductCategory {
+  categoryId Int
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+  assignedAt DateTime @default(now())
+  @@id([productId, categoryId])
+}
+
+model Product {
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  name              String
+  price             Int
+  newPrice          Int
+  thumbnail         String
+  description       String            @default("")
+  slug              String            @unique
+  productOptions    ProductOption[]
+  votes             Vote[]
+ users      ProductUser[]
+  categories ProductCategory[]
+  deletedAt DateTime?
+}
+model ProductUser {
+ 
+  userId    Int
+  productId Int
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+   assignedAt DateTime @default(now())
+  @@id([productId, userId])
+}
+
+model Variant {
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  name          String
+  variantValues VariantValue[]
+  deletedAt DateTime?
+}
+
+model VariantValue {
+  id                  Int                  @id @default(autoincrement())
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  name                String
+  variantId           Int
+  variant             Variant              @relation(fields: [variantId], references: [id])
+  productOptions ProductOptionValue[]
+  deletedAt DateTime?
+}
+
+model ProductOption {
+  id                  Int                  @id @default(autoincrement())
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  title               String
+  sku                 String               @default("")
+  amount              Int
+  productId           Int
+  thumbnail           String               @default("")
+  product             Product              @relation(fields: [productId], references: [id])
+  variantValues ProductOptionValue[]
+  carts           CartItem[]
+  orders         OrderItem[]
+  deletedAt DateTime?
+  weight Int
+}
+
+model ProductOptionValue {
+  productOptionId Int
+  variantValueId  Int
+  productOption   ProductOption @relation(fields: [productOptionId], references: [id])
+  variantValue    VariantValue  @relation(fields: [variantValueId], references: [id])
+  assignedAt DateTime @default(now())
+  @@id([variantValueId, productOptionId])
+}
+
+model Cart{
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+  productOptions CartItem[]
+  deletedAt DateTime?
+}
+
+model CartItem {
+  cartId Int
+  cart Cart @relation(fields: [cartId], references: [id])
+  productOptionId Int
+  productOption   ProductOption @relation(fields: [productOptionId], references: [id])
+  quantity        Int
+   assignedAt DateTime @default(now())
+  @@id([cartId, productOptionId])
+ 
+}
+model OrderStatus {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  type String
+  orders      Order[]
+  deletedAt DateTime?
+}
+
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId        Int
+  city          String
+  district      String
+  ward          String
+  address        String
+  paymentMethodId Int
+  totalPrice    String
+  orderStatusId Int
+  couponId      Int?
+  orderStatus   OrderStatus @relation(fields: [orderStatusId], references: [id])
+  coupon        Coupon?     @relation(fields: [couponId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  paymentMethod          PaymentMethod        @relation(fields: [paymentMethodId], references: [id])
+  orderItems    OrderItem[]
+  deletedAt DateTime?
+
+}
+
+model Coupon {
+   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  start DateTime
+  end DateTime
+  code String
+  percent Int @default(0)
+  price Int @default(0)
+  orders Order[]
+  deletedAt DateTime?
+}
+
+model PaymentMethod {
+   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  orders Order[]
+  deletedAt DateTime?
+}
+model OrderItem {
+  
+  productOptionId Int
+  orderId         Int
+  price           Int
+  quantity        Int
+  productOption   ProductOption @relation(fields: [productOptionId], references: [id])
+  order           Order         @relation(fields: [orderId], references: [id])
+    assignedAt DateTime @default(now())
+  @@id([orderId, productOptionId])
+}
+
+model Meta {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String
+  banners     Banner[]
+  deletedAt DateTime?
+}
+
+model Banner {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  slug        String   @unique
+  description String
+  thumbnail   String
+  isShow      Boolean  @default(true)
+  metaId      Int
+  meta        Meta    @relation(fields: [metaId], references: [id], onDelete: Cascade)
+}
+
+model Vote {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    Int
+  productId Int
+  content   String
+  rate      Int
+  user      User      @relation(fields: [userId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+  repVotes  RepVote[]
+  deletedAt DateTime?
+}
+
+model RepVote {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  voteId    Int
+  userId    Int?
+  content   String
+  user      User?    @relation(fields: [userId], references: [id])
+  vote      Vote     @relation(fields: [voteId], references: [id])
+  deletedAt DateTime?
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String
+  content     String
+  thumbnail   String
+  description String
+  adminId     Int
+  comments    Comment[]
+  deletedAt DateTime?
+}
+
+model Comment {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  content     String
+  postId      Int
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id])
+  post        Post         @relation(fields: [postId], references: [id])
+  repComments RepComment[]
+  deletedAt DateTime?
+}
+
+model RepComment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String
+  userId    Int
+  commentId Int
+  user      User     @relation(fields: [userId], references: [id])
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  deletedAt DateTime?
+}
+
+
