@@ -1,0 +1,45 @@
+.buttons {
+	margin-bottom: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	button {
+		margin-right: 8px;
+	}
+}
+p {
+	margin-bottom: 0;
+}
+
+.label-img {
+	cursor: pointer;
+	width: 100%;
+	height: 180px;
+	border: 1px solid #d9d9d9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 26px;
+	flex-direction: column;
+	color: #d9d9d9;
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+	span {
+		font-size: 60px;
+		transform: translateY(2px);
+		line-height: 64px;
+	}
+}
+.cell-thumbnail {
+	height: 100px;
+}
+.cell-visibility {
+	font-size: 28px;
+	color: red;
+	&.visible {
+		color: green;
+	}
+}

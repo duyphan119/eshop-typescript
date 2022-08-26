@@ -1,0 +1,38 @@
+.cart {
+	padding: 0 80px;
+	.title {
+		font-weight: 600;
+		font-size: 24px;
+	}
+	table {
+		width: 100%;
+		text-align: center;
+		box-shadow: 0 0 1px 0 #333;
+		font-size: 12px;
+
+		th,
+		td {
+			padding: 8px;
+			box-shadow: 0 0 1px 0 #333;
+			&:first-child {
+				width: 80px;
+			}
+			&:last-child {
+				width: 48px;
+			}
+		}
+	}
+
+	.left {
+		background-color: #f9f9f9;
+		margin-top: 40px;
+		height: 100%;
+		padding: 40px;
+		.title {
+			font-size: 24px;
+			font-weight: 600;
+			line-height: 36px;
+			margin: 0px 0px 13px;
+		}
+	}
+}

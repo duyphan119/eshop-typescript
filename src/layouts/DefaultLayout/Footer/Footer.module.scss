@@ -1,0 +1,15 @@
+.footer {
+	padding-block: 70px;
+	background-color: var(--primary-color-heavy);
+	color: #fff;
+	.register-wrapper {
+	}
+	.list {
+		list-style: none;
+		.item {
+			a {
+				color: inherit;
+			}
+		}
+	}
+}

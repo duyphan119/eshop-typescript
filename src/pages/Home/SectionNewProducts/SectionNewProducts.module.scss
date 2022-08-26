@@ -1,0 +1,42 @@
+.title {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10.5px;
+	h2 {
+		margin: 0;
+	}
+	.tabs {
+		list-style: none;
+		margin: 0 0 0 32px;
+		padding: 0;
+		text-transform: uppercase;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		.tab {
+			height: 100%;
+			margin-right: 32px;
+			color: gray;
+			position: relative;
+			cursor: pointer;
+			font-weight: 600;
+			&:hover {
+				color: #000;
+			}
+			&.active {
+				color: #000;
+				&::after {
+					content: "";
+					position: absolute;
+					left: 50%;
+					bottom: -4px;
+					height: 4px;
+					width: 16px;
+					transform: translateX(-50%);
+					background-color: var(--primary-color);
+					border-radius: 2px;
+				}
+			}
+		}
+	}
+}

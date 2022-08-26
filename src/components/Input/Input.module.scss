@@ -1,0 +1,25 @@
+.form-control {
+	display: block;
+	width: 100%;
+	border: 1px solid #333f48;
+	padding: 10px;
+	color: #333f48;
+	font-weight: 500;
+	border-radius: 2px;
+	&:focus-within {
+		border: 1px solid #63b1bc;
+	}
+	input {
+		border: none;
+		outline: none;
+		width: 100%;
+		font-size: 14px;
+		line-height: 21px;
+		margin-top: 1px;
+	}
+	span {
+		display: block;
+		font-size: 12px;
+		line-height: 16px;
+	}
+}
