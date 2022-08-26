@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
+import CartService from "../services/cart.service";
 import { CODE_RESPONSE, COOKIE_REFRESH_TOKEN, MESSAGE_RESPONSE, STATUS_CODE, __prod__ } from "../constants";
 import AuthService from "../services/auth.service";
 import RoleService from "../services/role.service";
 import UserService from "../services/user.service";
 import UserRoleService from "../services/userRole.service";
 import { catchErrorResponse } from "../utils";
+import { db } from "../utils/db.server";
 
 class AuthController {
 	static async login(req: Request, res: Response) {
@@ -43,12 +45,15 @@ class AuthController {
 	static async register(req: Request, res: Response) {
 		try {
 			const user = await AuthService.register(req.body);
-			const role = await RoleService.findOne({ name: "CUSTOMER" });
+			const cart = await CartService.createCart({ userId: user.id });
+			const role = await RoleService.getDefault();
 			if (role) {
-				await UserRoleService.create({
-					userId: user.id,
-					roleId: role.id,
-				});
+				await UserRoleService.createManyUserRoles([
+					{
+						userId: user.id,
+						roleId: role.id,
+					},
+				]);
 			}
 			const payload = {
 				sub: user.id,
@@ -68,7 +73,7 @@ class AuthController {
 			return res.status(STATUS_CODE.CREATED).json({
 				code: CODE_RESPONSE.SUCCESS,
 				message: MESSAGE_RESPONSE.SUCCESS,
-				data: { user: resUser, accessToken, refreshToken },
+				data: { user: { ...resUser, cart }, accessToken, refreshToken },
 			});
 		} catch (error) {
 			return catchErrorResponse(res, error);
@@ -119,10 +124,11 @@ class AuthController {
 		}
 	}
 	static async getProfile(req: Request, res: Response) {
+		const role = await RoleService.getDefault();
 		try {
 			if (res.locals.jwtPayload) {
 				const { sub } = res.locals.jwtPayload;
-				const user = await UserService.getById(sub);
+				const user = await UserService.getUserById(sub);
 
 				if (user) {
 					const { hash, deletedAt, ...profile } = user;
@@ -159,6 +165,31 @@ class AuthController {
 					});
 				}
 			}
+			return res.status(STATUS_CODE.UNAUTHORIZED).json({
+				code: CODE_RESPONSE.ERROR,
+				message: MESSAGE_RESPONSE.UNAUTHORIZED,
+			});
+		} catch (error) {
+			return catchErrorResponse(res, error);
+		}
+	}
+	static async editProfile(req: Request, res: Response) {
+		const role = await RoleService.getDefault();
+		try {
+			if (res.locals.jwtPayload) {
+				const { sub } = res.locals.jwtPayload;
+				const user = await AuthService.editProfile(sub, req.body);
+
+				if (user) {
+					const { hash, deletedAt, ...profile } = user;
+					return res.status(STATUS_CODE.SUCCESS).json({
+						code: CODE_RESPONSE.SUCCESS,
+						message: MESSAGE_RESPONSE.SUCCESS,
+						data: profile,
+					});
+				}
+			}
+
 			return res.status(STATUS_CODE.UNAUTHORIZED).json({
 				code: CODE_RESPONSE.ERROR,
 				message: MESSAGE_RESPONSE.UNAUTHORIZED,

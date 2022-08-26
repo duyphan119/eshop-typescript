@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import CartService from "../services/cart.service";
 import { CODE_RESPONSE, MESSAGE_RESPONSE, STATUS_CODE } from "../constants";
 import UserService from "../services/user.service";
 import { catchErrorResponse } from "../utils";
@@ -18,6 +19,12 @@ class UserController {
 	}
 	static async getUserById(req: Request, res: Response) {
 		try {
+			const data = await UserService.getUserById(parseInt(req.params.id));
+			return res.status(STATUS_CODE.SUCCESS).json({
+				code: CODE_RESPONSE.SUCCESS,
+				message: MESSAGE_RESPONSE.SUCCESS,
+				data,
+			});
 		} catch (error) {
 			return catchErrorResponse(res, error);
 		}
@@ -25,6 +32,7 @@ class UserController {
 	static async createUser(req: Request, res: Response) {
 		try {
 			const user = await UserService.createUser(req.body);
+			await CartService.createCart({ userId: user.id });
 			const { hash, deletedAt, ...resUser } = user;
 			return res.status(STATUS_CODE.CREATED).json({
 				code: CODE_RESPONSE.SUCCESS,

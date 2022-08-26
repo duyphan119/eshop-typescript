@@ -1,10 +1,9 @@
-import { BatchPayload } from "../utils/interfaces";
 import { User, UserRole } from "@prisma/client";
 import { hash } from "argon2";
 import { assert } from "superstruct";
 import { CreateUserDTO, GetAllUsersDTO, UpdateUserDTO } from "../dto/user.dto";
 import { db } from "../utils/db.server";
-import { GetAllResponse } from "../utils/types";
+import { GetAllResponse, BatchPayload } from "../utils/types";
 import { CreateUserValidation, UpdateUserValidation } from "../validation/user.validation";
 
 class UserService {
@@ -13,30 +12,9 @@ class UserService {
 		const p = queryParams.p ? (parseInt(queryParams.p) - 1) * limit : 0;
 		const where: any = {
 			deletedAt: null,
-			...(queryParams.email
-				? {
-						email: {
-							contains: queryParams.email,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
-			...(queryParams.fullName
-				? {
-						fullName: {
-							contains: queryParams.fullName,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
-			...(queryParams.phone
-				? {
-						phone: {
-							contains: queryParams.phone,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
+			...(queryParams.email ? { email: { contains: queryParams.email, mode: "insensitive" } } : {}),
+			...(queryParams.fullName ? { fullName: { contains: queryParams.fullName, mode: "insensitive" } } : {}),
+			...(queryParams.phone ? { phone: { contains: queryParams.phone, mode: "insensitive" } } : {}),
 		};
 		const items = await db.user.findMany({
 			where,
@@ -55,16 +33,10 @@ class UserService {
 			totalPage: queryParams.limit ? Math.ceil(count / limit) : 1,
 		};
 	}
-	static async getById(id: number): Promise<(User & { roles: UserRole[] }) | null> {
-		return db.user.findUnique({
-			where: { id },
-			include: {
-				roles: {
-					include: {
-						role: true,
-					},
-				},
-			},
+	static async getUserById(id: number): Promise<User | null> {
+		return db.user.findFirst({
+			where: { id, deletedAt: null },
+			include: { roles: { include: { role: true } }, cart: true },
 		});
 	}
 	static async createUser(input: CreateUserDTO): Promise<User> {

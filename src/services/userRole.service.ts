@@ -1,19 +1,16 @@
-import { UserRole } from "@prisma/client";
 import { assert } from "superstruct";
-import {
-	CreateUserRoleValidation,
-	CreateUserRoleDTO,
-} from "../dto/userRole.dto";
+import { CreateUserRoleDTO } from "../dto/userRole.dto";
 import { db } from "../utils/db.server";
+import { BatchPayload } from "../utils/types";
+import { CreateUserRoleValidation } from "../validation/userRole.validation";
 
 class UserRoleService {
-	static async create(input: CreateUserRoleDTO): Promise<UserRole> {
-		assert(input, CreateUserRoleValidation);
-		return db.userRole.create({
-			data: {
-				userId: input.userId,
-				roleId: input.roleId,
-			},
+	static async createManyUserRoles(input: Array<CreateUserRoleDTO>): Promise<BatchPayload> {
+		input.forEach((inputItem: CreateUserRoleDTO) => {
+			assert(inputItem, CreateUserRoleValidation);
+		});
+		return db.userRole.createMany({
+			data: input,
 		});
 	}
 }

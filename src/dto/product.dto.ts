@@ -23,5 +23,4 @@ export type GetAllProductsDTO = QueryParams & {
 	slug?: string;
 	name?: string;
 	newPrice?: string;
-	searchContains?: string;
 };

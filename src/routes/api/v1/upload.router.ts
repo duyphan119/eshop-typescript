@@ -75,4 +75,27 @@ router.post("/category", upload.single("file"), async (req: Request, res: Respon
 	return res.status(200).json("");
 });
 
+router.post("/", upload.single("file"), async (req: Request, res: Response) => {
+	cloudinary.v2.config({
+		api_key,
+		api_secret,
+		cloud_name,
+	});
+	try {
+		if (req.file) {
+			const img = await cloudinary.v2.uploader.upload(req.file.path, {
+				folder: "canifa",
+			});
+			const unlinkAsync = promisify(unlink);
+			const path = __dirname.split("src")[0];
+			console.log({ __dirname, path, filePath: req.file.path });
+			await unlinkAsync(path + req.file.path);
+			return res.status(200).json(img.secure_url);
+		}
+	} catch (error) {
+		console.log(error);
+	}
+	return res.status(200).json("");
+});
+
 export default router;

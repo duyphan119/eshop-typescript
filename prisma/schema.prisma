@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("LOCAL_DATABASE_URL")
 }
 model Role {
   id           Int           @id @default(autoincrement())
@@ -65,9 +65,9 @@ model Category {
   title               String
   name                String            @default("")
   description         String            @default("")
-  slug                String            @unique
+  slug                String           
   thumbnail           String            @default("")
-  categoryTypeId      Int?
+  categoryTypeId      Int?  
   categoryType        CategoryType?     @relation(fields: [categoryTypeId], references: [id])
   parentId            Int?              @map("categoryId")
   parent              Category?         @relation("CategoryToCategory", fields: [parentId], references: [id])
@@ -175,7 +175,6 @@ model CartItem {
   quantity        Int
    assignedAt DateTime @default(now())
   @@id([cartId, productOptionId])
- 
 }
 model OrderStatus {
   id          Int      @id @default(autoincrement())
@@ -198,8 +197,12 @@ model Order {
   district      String
   ward          String
   address        String
+  fullName        String
+  phone String
+  description String @default("")
   paymentMethodId Int
-  totalPrice    String
+  totalPrice    Int
+  shippingPrice Int @default(0)
   orderStatusId Int
   couponId      Int?
   orderStatus   OrderStatus @relation(fields: [orderStatusId], references: [id])
@@ -260,7 +263,7 @@ model Banner {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  slug        String   @unique
+  slug        String  @default("")
   description String
   thumbnail   String
   isShow      Boolean  @default(true)

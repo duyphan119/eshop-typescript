@@ -2,24 +2,16 @@ import { CategoryType } from "@prisma/client";
 import { assert } from "superstruct";
 import { CreateCategoryTypeDTO, GetAllCategoryTypesDTO, UpdateCategoryTypeDTO } from "../dto/categoryType.dto";
 import { db } from "../utils/db.server";
-import { BatchPayload } from "../utils/interfaces";
-import { GetAllResponse } from "../utils/types";
+import { GetAllResponse, BatchPayload } from "../utils/types";
 import { CreateCategoryTypeValidation, UpdateCategoryTypeValidation } from "../validation/categoryType.validation";
 
-class CategoryService {
+class CategoryTypeService {
 	static async getAllCategoryTypes(queryParams: GetAllCategoryTypesDTO): Promise<GetAllResponse<CategoryType>> {
 		const limit = queryParams.limit ? parseInt(queryParams.limit) : 10;
 		const p = queryParams.p ? (parseInt(queryParams.p) - 1) * limit : 0;
 		const where: any = {
 			deletedAt: null,
-			...(queryParams.name
-				? {
-						name: {
-							contains: queryParams.name,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
+			...(queryParams.name ? { name: { contains: queryParams.name, mode: "insensitive" } } : {}),
 		};
 		const items = await db.categoryType.findMany({
 			where,
@@ -38,6 +30,9 @@ class CategoryService {
 			totalPage: queryParams.limit ? Math.ceil(count / limit) : 1,
 		};
 	}
+	static async getCategoryTypeById(id: number): Promise<CategoryType | null> {
+		return db.categoryType.findFirst({ where: { id, deletedAt: null } });
+	}
 	static async createCategoryType(input: CreateCategoryTypeDTO): Promise<CategoryType> {
 		assert(input, CreateCategoryTypeValidation);
 		const { name } = input;
@@ -53,9 +48,7 @@ class CategoryService {
 			data: {
 				...(name ? { name } : {}),
 			},
-			where: {
-				id,
-			},
+			where: { id },
 		});
 	}
 
@@ -72,4 +65,4 @@ class CategoryService {
 	}
 }
 
-export default CategoryService;
+export default CategoryTypeService;

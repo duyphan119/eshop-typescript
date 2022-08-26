@@ -585,7 +585,7 @@ const seed = async () => {
 		);
 		const aoThunFemale4 = await createProduct(
 			{
-				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660179179/canifa/6ts22a002-sm378-2-thumb_vph1ki.jpg",
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660179352/canifa/6ts22s047-sw001-2-thumb_allxeu.jpg",
 				name: "Áo phông nữ in hình",
 				price: 269000,
 				newPrice: 0,
@@ -613,10 +613,172 @@ const seed = async () => {
 				"https://res.cloudinary.com/dwhjftwvw/image/upload/v1660179765/canifa/6ta22s002-sw001-1_howtqm.jpg",
 			]
 		);
+		await createMetaBanner();
 	} catch (error) {
 		console.log(error);
 	}
 };
+
+async function createMetaBanner() {
+	const metaBannerHomePage = await db.meta.create({
+		data: {
+			name: "Banner Home Page",
+			description: "",
+		},
+	});
+	const metaBannerSaleForYou = await db.meta.create({
+		data: {
+			name: "Banner Sale For You",
+			description: "",
+		},
+	});
+	const metaBannerGoodPriceProduct = await db.meta.create({
+		data: {
+			name: "Banner Good Price Product",
+			description: "",
+		},
+	});
+	const metaBannerSectionProductStyleAtHome = await db.meta.create({
+		data: {
+			name: "Banner Section Product Style At Home",
+			description: "",
+		},
+	});
+	const metaBannerCanifaZ = await db.meta.create({
+		data: {
+			name: "Banner Canifa Z",
+			description: "",
+		},
+	});
+	const metaBannerSectionProductAoPhong = await db.meta.create({
+		data: {
+			name: "Banner Section Product Ao Phong",
+			description: "",
+		},
+	});
+	const metaBannerSectionProductFamily = await db.meta.create({
+		data: {
+			name: "Banner Section Product Family",
+			description: "",
+		},
+	});
+	const metaBannerQuanJeans = await db.meta.create({
+		data: {
+			name: "Banner Section Product Quan Jean",
+			description: "",
+		},
+	});
+
+	await db.banner.createMany({
+		data: [
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663194/canifa/banner/banner_name_tablet1660097445_pl3beg.jpg",
+				slug: "ao-den-truong",
+				description: "",
+				metaId: metaBannerHomePage.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663442/canifa/banner/list_image_tablet1660064322_f5nxmx.jpg",
+				slug: "bo-mac-nha",
+				description: "",
+				metaId: metaBannerSaleForYou.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663452/canifa/banner/list_image_tablet_second1659682994_ynhlrl.jpg",
+				slug: "vay-me-va-be",
+				description: "",
+				metaId: metaBannerSaleForYou.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663501/canifa/banner/list_image_tablet1646719696_wqzr9u.jpg",
+				slug: "san-pham-gia-tot",
+				description: "",
+				metaId: metaBannerGoodPriceProduct.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663663/canifa/banner/list_image_tablet1650513698_zbbwsw.png",
+				slug: "bst-bo-mac-nha",
+				description: "",
+				metaId: metaBannerSectionProductStyleAtHome.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663672/canifa/banner/list_image_tablet_second1650513698_gljxvo.png",
+				slug: "bst-bo-mac-nha",
+				description: "",
+				metaId: metaBannerSectionProductStyleAtHome.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663649/canifa/banner/list_image_tablet_third1650513698_lzurin.png",
+				slug: "bst-bo-mac-nha",
+				description: "",
+				metaId: metaBannerSectionProductStyleAtHome.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663788/canifa/banner/list_image_tablet1660630981_dl9zad.jpg",
+				slug: "canifa-z",
+				description: "",
+				metaId: metaBannerCanifaZ.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663869/canifa/banner/list_image_tablet1649392540_fltjx2.png",
+				slug: "ao-phong",
+				description: "",
+				metaId: metaBannerSectionProductAoPhong.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663885/canifa/banner/list_image_tablet_second1649392540_il43l4.png",
+				slug: "ao-phong",
+				description: "",
+				metaId: metaBannerSectionProductAoPhong.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660663918/canifa/banner/list_image_tablet_third1649392540_hkbs9v.png",
+				slug: "ao-phong",
+				description: "",
+				metaId: metaBannerSectionProductAoPhong.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660664049/canifa/banner/list_image_tablet1651737068_fz1s99.png",
+				slug: "bst-gia-dinh",
+				description: "",
+				metaId: metaBannerSectionProductFamily.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660664075/canifa/banner/list_image_tablet_second1651737068_fawi3q.png",
+				slug: "bst-gia-dinh",
+				description: "",
+				metaId: metaBannerSectionProductFamily.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660664096/canifa/banner/list_image_tablet_third1651737068_nnmelw.png",
+				slug: "bst-gia-dinh",
+				description: "",
+				metaId: metaBannerSectionProductFamily.id,
+				isShow: true,
+			},
+			{
+				thumbnail: "https://res.cloudinary.com/dwhjftwvw/image/upload/v1660664130/canifa/banner/list_image_tablet1650248471_emxfuw.jpg",
+				slug: "quan-jeans",
+				description: "",
+				metaId: metaBannerQuanJeans.id,
+				isShow: true,
+			},
+		],
+	});
+}
 
 const createProduct = async (data: any, categories: any, variantValues1: any, variantValues2: any, imgs?: any) => {
 	const product = await db.product.create({

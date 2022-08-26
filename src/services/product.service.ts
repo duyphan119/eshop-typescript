@@ -2,8 +2,7 @@ import { Product } from "@prisma/client";
 import { assert } from "superstruct";
 import { CreateProductDTO, GetAllProductsDTO, UpdateProductDTO } from "../dto/product.dto";
 import { db } from "../utils/db.server";
-import { BatchPayload } from "../utils/interfaces";
-import { GetAllResponse } from "../utils/types";
+import { GetAllResponse, BatchPayload } from "../utils/types";
 import { CreateProductValidation, UpdateProductValidation } from "../validation/product.validation";
 
 class ProductService {
@@ -12,31 +11,9 @@ class ProductService {
 		const p = queryParams.p ? (parseInt(queryParams.p) - 1) * limit : 0;
 		const where: any = {
 			deletedAt: null,
-			...(queryParams.name
-				? {
-						name: queryParams.searchContains
-							? {
-									contains: queryParams.name,
-									mode: "insensitive",
-							  }
-							: queryParams.name,
-				  }
-				: {}),
-			...(queryParams.slug
-				? {
-						slug: queryParams.searchContains
-							? {
-									contains: queryParams.slug,
-									mode: "insensitive",
-							  }
-							: queryParams.slug,
-				  }
-				: {}),
-			...(queryParams.price
-				? {
-						parentId: parseInt(queryParams.price),
-				  }
-				: {}),
+			...(queryParams.name ? { name: { contains: queryParams.name, mode: "insensitive" } } : {}),
+			...(queryParams.slug ? { slug: { contains: queryParams.slug, mode: "insensitive" } } : {}),
+			...(queryParams.price ? { price: parseInt(queryParams.price) } : {}),
 		};
 		const items = await db.product.findMany({
 			where,
@@ -46,29 +23,9 @@ class ProductService {
 			...(queryParams.limit ? { take: limit } : {}),
 			...(queryParams.limit && queryParams.p ? { skip: p } : {}),
 			include: {
-				users: {
-					include: {
-						user: true,
-					},
-				},
-				categories: {
-					include: {
-						category: true,
-					},
-				},
-				productOptions: {
-					include: {
-						variantValues: {
-							include: {
-								variantValue: {
-									include: {
-										variant: true,
-									},
-								},
-							},
-						},
-					},
-				},
+				users: { include: { user: true } },
+				categories: { include: { category: true } },
+				productOptions: { include: { variantValues: { include: { variantValue: { include: { variant: true } } } } } },
 			},
 		});
 

@@ -1,11 +1,10 @@
 import { generateIncludeChildrenCategory } from "../utils";
-import { CreateCategoryDTO, GetAllCategoriesDTO, UpdateCategoryDTO } from "../dto/category.dto";
+import { CreateCategoryDTO, GetAllCategoriesDTO, GetCategoryDTO, UpdateCategoryDTO } from "../dto/category.dto";
 import { Category } from "@prisma/client";
 import { db } from "../utils/db.server";
 import { assert } from "superstruct";
 import { CreateCategoryValidation, UpdateCategoryValidation } from "../validation/category.validation";
-import { BatchPayload } from "../utils/interfaces";
-import { GetAllResponse } from "../utils/types";
+import { GetAllResponse, BatchPayload } from "../utils/types";
 
 class CategoryService {
 	static async getAllCategories(queryParams: GetAllCategoriesDTO): Promise<GetAllResponse<Category>> {
@@ -13,35 +12,10 @@ class CategoryService {
 		const p = queryParams.p ? (parseInt(queryParams.p) - 1) * limit : 0;
 		const where: any = {
 			deletedAt: null,
-			...(queryParams.title
-				? {
-						title: {
-							contains: queryParams.title,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
-			...(queryParams.name
-				? {
-						name: {
-							contains: queryParams.name,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
-			...(queryParams.slug
-				? {
-						slug: {
-							contains: queryParams.slug,
-							mode: "insensitive",
-						},
-				  }
-				: {}),
-			...(queryParams.parentId
-				? {
-						parentId: queryParams.parentId === "null" ? null : parseInt(queryParams.parentId),
-				  }
-				: {}),
+			...(queryParams.title ? { title: { contains: queryParams.title, mode: "insensitive" } } : {}),
+			...(queryParams.name ? { name: { contains: queryParams.name, mode: "insensitive" } } : {}),
+			...(queryParams.slug ? { slug: { contains: queryParams.slug, mode: "insensitive" } } : {}),
+			...(queryParams.parentId ? { parentId: queryParams.parentId === "null" ? null : parseInt(queryParams.parentId) } : {}),
 		};
 		const items = await db.category.findMany({
 			where,
@@ -63,6 +37,13 @@ class CategoryService {
 			count,
 			totalPage: queryParams.limit ? Math.ceil(count / limit) : 1,
 		};
+	}
+
+	static async getCategoryById(id: number, queryParams: GetCategoryDTO): Promise<Category | null> {
+		return db.category.findFirst({
+			where: { id, deletedAt: null },
+			include: { categoryType: true, ...generateIncludeChildrenCategory(queryParams.depth ? parseInt(queryParams.depth) : 1) },
+		});
 	}
 	static async createCategory(input: CreateCategoryDTO): Promise<Category> {
 		assert(input, CreateCategoryValidation);

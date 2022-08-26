@@ -19,6 +19,8 @@ import routerUser from "./user.router";
 import routerVariant from "./variant.router";
 import routerVariantValue from "./variantValue.router";
 import routerUpload from "./upload.router";
+import routerMeta from "./meta.router";
+import routerBanner from "./banner.router";
 const router = Router();
 
 router.use("/auth", routerAuth);
@@ -41,5 +43,7 @@ router.use("/user", routerUser);
 router.use("/variant", routerVariant);
 router.use("/variant-value", routerVariantValue);
 router.use("/upload", routerUpload);
+router.use("/meta", routerMeta);
+router.use("/banner", routerBanner);
 
 export default router;

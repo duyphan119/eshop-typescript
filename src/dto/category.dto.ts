@@ -29,3 +29,7 @@ export type GetAllCategoriesDTO = QueryParams & {
 	depth?: string;
 	parentId?: string;
 };
+
+export type GetCategoryDTO = QueryParams & {
+	depth?: string;
+};

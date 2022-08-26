@@ -10,3 +10,7 @@ export type GetAllResponse<T> = {
 	count: number;
 	totalPage: number;
 };
+
+export type BatchPayload = {
+	count: number;
+};

@@ -1,7 +1,7 @@
 import { User, UserRole } from "@prisma/client";
 import { assert } from "superstruct";
-import { RegisterDTO, ChangePasswordDTO } from "../dto/auth.dto";
-import { RegisterValidation, LoginValidation } from "../validation/auth.validation";
+import { RegisterDTO, ChangePasswordDTO, EditProfileDTO } from "../dto/auth.dto";
+import { RegisterValidation, LoginValidation, EditProfileValidation } from "../validation/auth.validation";
 import { db } from "../utils/db.server";
 import { hash, verify } from "argon2";
 import { sign, verify as verifyToken } from "jsonwebtoken";
@@ -101,6 +101,11 @@ class AuthService {
 		});
 
 		return STATUS_CODE.SUCCESS;
+	}
+
+	static async editProfile(userId: number, input: EditProfileDTO): Promise<User> {
+		assert(input, EditProfileValidation);
+		return db.user.update({ data: { ...(input.fullName ? { fullName: input.fullName } : {}) }, where: { id: userId } });
 	}
 }
 export default AuthService;

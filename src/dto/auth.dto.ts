@@ -14,3 +14,7 @@ export type ChangePasswordDTO = {
 	oldPassword: string;
 	newPassword: string;
 };
+
+export type EditProfileDTO = {
+	fullName?: string;
+};

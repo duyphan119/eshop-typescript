@@ -1,5 +1,5 @@
 import isEmail from "isemail";
-import { object, refine, size, string } from "superstruct";
+import { object, optional, refine, size, string } from "superstruct";
 
 export const RegisterValidation = object({
 	email: refine(string(), "email", (v) => isEmail.validate(v)),
@@ -16,4 +16,8 @@ export const LoginValidation = object({
 export const ChangePasswordValidation = object({
 	oldPassword: size(string(), 6, 30),
 	newPassword: size(string(), 6, 30),
+});
+
+export const EditProfileValidation = object({
+	fullName: optional(size(string(), 1, 50)),
 });

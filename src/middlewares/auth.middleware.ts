@@ -1,5 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
+import { CODE_RESPONSE } from "../constants";
 import AuthService from "../services/auth.service";
 
 export const getUser: any = (req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +32,7 @@ export const requireLogin: any = (req: Request, res: Response, next: NextFunctio
 			} catch (error) {}
 		}
 	}
-	return res.status(401).json({ code: 2, message: "Unauthorized" });
+	return res.status(401).json({ code: CODE_RESPONSE.ERROR, message: "Unauthorized" });
 };
 
 export const requireIsAdmin: any = (req: Request, res: Response, next: NextFunction) => {
@@ -46,7 +47,7 @@ export const requireIsAdmin: any = (req: Request, res: Response, next: NextFunct
 		) {
 			next();
 		} else {
-			return res.status(401).json({ code: 2, message: "Unauthorized" });
+			return res.status(401).json({ code: CODE_RESPONSE.ERROR, message: "Unauthorized" });
 		}
 	});
 };
@@ -63,7 +64,7 @@ export const requireIsUser: any = (req: Request, res: Response, next: NextFuncti
 		) {
 			next();
 		} else {
-			return res.status(401).json({ code: 2, message: "Unauthorized" });
+			return res.status(401).json({ code: CODE_RESPONSE.ERROR, message: "Unauthorized" });
 		}
 	});
 };
