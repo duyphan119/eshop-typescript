@@ -7,6 +7,13 @@ import { CreateOrderValidation, UpdateOrderValidation } from "../validation/orde
 import OrderStatusService from "./orderStatus.service";
 
 class OrderService {
+	public static INCLUDE = {
+		orderItems: { include: { productOption: { include: { product: true } } } },
+		user: true,
+		paymentMethod: true,
+		coupon: true,
+		orderStatus: true,
+	};
 	static async getAllOrders(queryParams: GetAllOrdersDTO): Promise<GetAllResponse<Order>> {
 		const limit = queryParams.limit ? parseInt(queryParams.limit) : 10;
 		const p = queryParams.p ? (parseInt(queryParams.p) - 1) * limit : 0;
@@ -27,16 +34,10 @@ class OrderService {
 			},
 			...(queryParams.limit ? { take: limit } : {}),
 			...(queryParams.limit && queryParams.p ? { skip: p } : {}),
-			include: {
-				orderItems: { include: { productOption: { include: { product: true } } } },
-				user: true,
-				orderStatus: true,
-				paymentMethod: true,
-				coupon: true,
-			},
+			include: this.INCLUDE,
 		});
 
-		const count = await db.category.count({ where });
+		const count = await db.order.count({ where });
 
 		return {
 			items,
@@ -65,13 +66,7 @@ class OrderService {
 			},
 			...(queryParams.limit ? { take: limit } : {}),
 			...(queryParams.limit && queryParams.p ? { skip: p } : {}),
-			include: {
-				orderItems: { include: { productOption: { include: { product: true } } } },
-				user: true,
-				orderStatus: true,
-				paymentMethod: true,
-				coupon: true,
-			},
+			include: this.INCLUDE,
 		});
 
 		const count = await db.order.count({ where });
@@ -86,7 +81,7 @@ class OrderService {
 	static async getOrderById(id: number): Promise<Order | null> {
 		return db.order.findFirst({
 			where: { id, deletedAt: null },
-			include: { orderItems: { include: { productOption: { include: { product: true } } } }, user: true },
+			include: this.INCLUDE,
 		});
 	}
 	static async createOrder(userId: number, input: CreateOrderDTO): Promise<Order | null> {
@@ -110,6 +105,7 @@ class OrderService {
 				totalPrice,
 				shippingPrice: shippingPrice || 0,
 			},
+			include: this.INCLUDE,
 		});
 	}
 
@@ -119,6 +115,7 @@ class OrderService {
 		return db.order.update({
 			data: { ...(orderStatusId ? { orderStatusId } : {}) },
 			where: { id },
+			include: this.INCLUDE,
 		});
 	}
 

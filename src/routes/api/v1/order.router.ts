@@ -1,11 +1,11 @@
 import { Router } from "express";
 import OrderController from "../../../controllers/order.controller";
-import { requireIsAdmin, requireLogin } from "../../../middlewares/auth.middleware";
+import { requireIsAdmin, requireIsUser, requireLogin } from "../../../middlewares/auth.middleware";
 
 const router = Router();
 
-router.get("/mine", requireLogin, OrderController.getAllOrdersOfUser);
-router.get("/:id", requireLogin, OrderController.getAllOrders);
+router.get("/mine", requireIsUser, OrderController.getAllOrdersOfUser);
+router.get("/:id", requireIsAdmin, OrderController.getOrderById);
 router.get("/", requireIsAdmin, OrderController.getAllOrders);
 router.post("/", requireLogin, OrderController.createOrder);
 router.patch("/:id", requireIsAdmin, OrderController.updateOrder);

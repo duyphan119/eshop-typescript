@@ -27,7 +27,6 @@ model User {
   fullName String
   email        String        @unique
   hash         String
-  avatar       String        @default("")
   phone        String        @unique
   roles UserRole[]
   orders       Order[]
