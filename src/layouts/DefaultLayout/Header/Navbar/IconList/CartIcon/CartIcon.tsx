@@ -5,7 +5,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { authState } from "redux/slice/auth.slice";
-import { cartActions, cartState } from "redux/slice/cart";
+import { cartActions, cartState } from "redux/slice/cart.slice";
 interface Props {
 	cx: Function;
 }

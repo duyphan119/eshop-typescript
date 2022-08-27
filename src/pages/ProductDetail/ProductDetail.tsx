@@ -13,7 +13,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { authState } from "redux/slice/auth.slice";
-import { cartActions } from "redux/slice/cart";
+import { cartActions } from "redux/slice/cart.slice";
 import Bottom from "./Bottom";
 import styles from "./ProductDetail.module.scss";
 import ProductInfo from "./ProductInfo";

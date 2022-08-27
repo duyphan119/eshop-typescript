@@ -6,7 +6,7 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { authState } from "redux/slice/auth.slice";
-import { cartActions } from "redux/slice/cart";
+import { cartActions } from "redux/slice/cart.slice";
 import { formatPrice, getURL } from "utils";
 import styles from "./CartItem.module.scss";
 const cx = classNames.bind(styles);

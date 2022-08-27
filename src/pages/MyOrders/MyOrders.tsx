@@ -1,6 +1,6 @@
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table/interface";
-import { Order } from "interfaces/order";
+import { Order } from "interfaces/order.interface";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authState } from "redux/slice/auth.slice";

@@ -1,0 +1,22 @@
+.price,
+.order-infos {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	.item {
+		display: flex;
+		.label {
+			width: 120px;
+		}
+	}
+}
+.price {
+	.item {
+		justify-content: space-between;
+	}
+}
+.order-items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}

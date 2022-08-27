@@ -1,4 +1,4 @@
-import { Order } from "./order";
+import { Order } from "./order.interface";
 import { ProductOption } from "./productOption";
 
 export interface OrderItem {

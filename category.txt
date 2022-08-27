@@ -1,0 +1,66 @@
+Header
+    Nam
+    Nữ
+        Sản phẩm mới
+            Áo phông - Polo
+            Áo sơ mi
+            Áo kiểu
+            Váy liền
+            Chân váy
+            Quần jeans
+            Quần shorts
+            Đồ mặc trong
+            Đồ mặc nhà
+            Phụ kiện
+            Áo nỉ
+        Canifa Z
+            Trend
+            Art
+            Base
+            Phụ kiện Z
+        Thời trang hàng ngày
+            Áo phông
+            Áo polo
+            Áo sơ mi
+            Áo kiểu
+            Áo len
+            Áo nỉ
+            Quần jeans
+            Quần shorts
+            Quần dài
+            Quần khaki
+            Quần legging
+            Chân váy
+            Áo Blazer
+            Áo khoác ngắn
+            Áo khoác gió
+            Váy liền thân (Đầm)
+            Chống nắng
+        Đồ mặc nhà
+            Bộ mặc nhà
+            Áo mặc nhà
+            Quần mặc nhà
+        Thời trang tất yếu
+            Phụ kiện
+            Đồ mặc bên trong
+            Đồ dùng cá nhân
+        Sản phẩm giá tốt
+        Giảm giá
+    Bé trai
+    Bé gái
+    Outlet
+        Nam
+        Nữ
+        Bé trai
+        Bé gái
+Bộ sưu tập
+    Đồ mặc nhà
+        Nam
+        Nữ
+        Bé trai
+        Bé gái
+Áo phông
+    Nam
+    Nữ
+    Bé trai
+    Bé gái

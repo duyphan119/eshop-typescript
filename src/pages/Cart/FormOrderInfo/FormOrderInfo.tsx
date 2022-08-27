@@ -1,9 +1,12 @@
-import { Form, Input, Select } from "antd";
 import { getCities, getDistricts, getFee, getWards } from "api/shippingApi";
+import Input from "components/Input";
+import Select from "components/Select";
 import { CartItem } from "interfaces/cartItem";
 import React from "react";
+import { UseFormRegister } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { cartState } from "redux/slice/cart";
+import { cartState } from "redux/slice/cart.slice";
+import { OrderInfoInputs } from "../Cart";
 interface Props {}
 
 enum ActionKind {
@@ -44,9 +47,10 @@ const reducer = (state: InitState, action: Action) => {
 
 interface Props {
 	onGetFee: Function;
+	register?: UseFormRegister<OrderInfoInputs>;
 }
 
-const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
+const FormOrderInfo: React.FC<Props> = ({ onGetFee, register }: Props) => {
 	const [state, dispatch] = React.useReducer(reducer, initState);
 	const { cities, districts, wards } = state;
 	const { cartItems } = useSelector(cartState);
@@ -64,7 +68,8 @@ const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
 		})();
 	}, []);
 
-	const handleChangeCity = (value: any) => {
+	const handleChangeCity = (e: any) => {
+		const value = e.target.value;
 		const province = cities.find((item: any) => item.ProvinceName === value);
 		if (province) {
 			(async () => {
@@ -83,7 +88,8 @@ const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
 		}
 	};
 
-	const handleChangeDistrict = (value: any) => {
+	const handleChangeDistrict = (e: any) => {
+		const value = e.target.value;
 		const district = districts.find((item: any) => item.DistrictName === value);
 		if (district) {
 			(async () => {
@@ -135,13 +141,46 @@ const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
 
 	return (
 		<>
-			<Form.Item name="fullName">
+			<Input label="Họ tên" name="fullName" register={register} validation={{ required: true }} style={{ marginTop: 16 }} />
+			<Input label="Số điện thoại" name="phone" register={register} validation={{ required: true }} style={{ marginTop: 16 }} />
+			<Select
+				onChange={handleChangeCity}
+				label="Tỉnh / Thành phố"
+				options={cities.map((item: any) => ({ value: item.ProvinceName }))}
+				style={{ marginTop: 16 }}
+				text="Chọn Tỉnh / Thành phố"
+				register={register}
+				validation={{ required: true }}
+				name="city"
+			/>
+			<Select
+				onChange={handleChangeDistrict}
+				label="Quận / Huyện"
+				options={districts.map((item: any) => ({ value: item.DistrictName }))}
+				style={{ marginTop: 16 }}
+				text="Chọn Quận / Huyện"
+				register={register}
+				validation={{ required: true }}
+				name="district"
+			/>
+			<Select
+				onChange={handleChangeWard}
+				label="Phường / Xã"
+				options={wards.map((item: any) => ({ value: item.WardName }))}
+				style={{ marginTop: 16 }}
+				text="Chọn Phường / Xã"
+				register={register}
+				validation={{ required: true }}
+				name="ward"
+			/>
+			<Input label="Địa chỉ" name="address" register={register} validation={{ required: true }} style={{ marginTop: 16 }} />
+			{/* <Form.Item name="fullName">
 				<Input placeholder="Họ tên" />
 			</Form.Item>
 			<Form.Item name="phone">
 				<Input placeholder="Số điện thoại" />
-			</Form.Item>
-			<Form.Item name="city">
+			</Form.Item> */}
+			{/* <Form.Item name="city">
 				<Select onChange={handleChangeCity}>
 					<Select.Option value="">Tỉnh / Thành phố</Select.Option>
 					{cities.map((item: any) => {
@@ -152,8 +191,8 @@ const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
 						);
 					})}
 				</Select>
-			</Form.Item>
-			<Form.Item name="district">
+			</Form.Item> */}
+			{/* <Form.Item name="district">
 				<Select onChange={handleChangeDistrict}>
 					<Select.Option value="">Quận / Huyện</Select.Option>
 					{districts.map((item: any) => {
@@ -164,8 +203,8 @@ const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
 						);
 					})}
 				</Select>
-			</Form.Item>
-			<Form.Item name="ward">
+			</Form.Item> */}
+			{/* <Form.Item name="ward">
 				<Select onChange={handleChangeWard}>
 					<Select.Option value="">Phường / Xã</Select.Option>
 					{wards.map((item: any) => {
@@ -176,10 +215,10 @@ const FormOrderInfo: React.FC<Props> = ({ onGetFee }: Props) => {
 						);
 					})}
 				</Select>
-			</Form.Item>
-			<Form.Item name="address">
+			</Form.Item> */}
+			{/* <Form.Item name="address">
 				<Input placeholder="Địa chỉ" />
-			</Form.Item>
+			</Form.Item> */}
 		</>
 	);
 };

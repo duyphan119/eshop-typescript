@@ -20,6 +20,7 @@ export interface TitlePageType {
 	categoryTypeList: string;
 	userList: string;
 	orderList: string;
+	editOrder: string;
 }
 export const titles: TitlePageType = {
 	home: "Home",
@@ -43,4 +44,5 @@ export const titles: TitlePageType = {
 	categoryTypeList: "All category types",
 	userList: "All Users",
 	orderList: "All Orders",
+	editOrder: "Edit Order",
 };

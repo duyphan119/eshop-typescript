@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem, CreateCartItemPayload, DeleteManyCartItems } from "interfaces/cartItem";
 import { FetchState, GetExtraPayloadType } from "interfaces/common";
+import { Order } from "interfaces/order.interface";
 import { RootState } from "redux/store";
 
 interface CartState {
@@ -11,6 +12,7 @@ interface CartState {
 interface StateType extends FetchState {
 	cartItems: CartItem[];
 	count: number;
+	order: Order | null;
 }
 
 const initialState: StateType = {
@@ -18,6 +20,7 @@ const initialState: StateType = {
 	count: 0,
 	isError: false,
 	isLoading: false,
+	order: null,
 };
 export const cartSlice = createSlice({
 	name: "cart",
@@ -73,6 +76,11 @@ export const cartSlice = createSlice({
 		removeManyItemsSuccess: (state, action: PayloadAction<DeleteManyCartItems>) => {
 			const { productOptionIds } = action.payload;
 			state.cartItems = state.cartItems.filter((item: CartItem) => !productOptionIds.includes(item.productOptionId));
+		},
+		checkoutSuccess: (state, action: PayloadAction<Order | null>) => {
+			state.cartItems = [];
+			state.count = 0;
+			state.order = action.payload;
 		},
 	},
 });

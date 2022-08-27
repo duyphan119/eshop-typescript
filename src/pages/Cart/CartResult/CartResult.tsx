@@ -46,7 +46,7 @@ const CartResult: React.FC<Props> = ({ shippingPrice, originPrice, newPrice, tot
 					</div>
 				</>
 			)}
-			<button type="button" onClick={() => onCheckout()} className={cx("checkout-btn")}>
+			<button type={location.pathname === config.routes.checkout ? "submit" : "button"} onClick={() => onCheckout()} className={cx("checkout-btn")}>
 				ĐẶT HÀNG
 			</button>
 		</div>

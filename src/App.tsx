@@ -22,7 +22,7 @@ const App: React.FC = () => {
 		return (
 			<Routes>
 				{routes.map((route: RouteType, index: number): React.ReactElement => {
-					let Layout = route.layout;
+					let Layout = route.layout || React.Fragment;
 
 					const Page = route.element;
 

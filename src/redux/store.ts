@@ -10,7 +10,7 @@ import { variantValueSlice } from "./slice/variantValue";
 import { productOptionSlice } from "./slice/productOption";
 import { voteSlice } from "./slice/vote";
 import { metaSlice } from "./slice/meta";
-import { cartSlice } from "./slice/cart";
+import { cartSlice } from "./slice/cart.slice";
 import { wishlistSlice } from "./slice/wishlist";
 import { userSlice } from "./slice/user";
 import { messageSlice } from "./slice/message";

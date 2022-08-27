@@ -29,6 +29,7 @@ export interface RoutesType {
 	checkout: string;
 	checkoutSuccess: string;
 	orderList: string;
+	editOrder: string;
 }
 
 export const routes: RoutesType = {
@@ -37,6 +38,7 @@ export const routes: RoutesType = {
 	report: "/report",
 	categoryList: "/dashboard/category",
 	orderList: "/dashboard/order",
+	editOrder: "/dashboard/order/edit/:id",
 	productList: "/dashboard/product",
 	login: "/login",
 	register: "/register",

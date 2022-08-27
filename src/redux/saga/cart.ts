@@ -3,7 +3,7 @@ import * as cartItemApi from "api/cartItemApi";
 import { CreateCartItemPayload } from "interfaces/cartItem";
 import { GetExtraPayloadType } from "interfaces/common";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { cartActions } from "redux/slice/cart";
+import { cartActions } from "redux/slice/cart.slice";
 
 function* workGetCartFetch({ payload }: PayloadAction<GetExtraPayloadType>): any {
 	try {

@@ -1,7 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { getMyOrders, getOrders } from "api/orderApi";
 import { CODE } from "constant";
-import { GetAllOrdersPayload } from "interfaces/order";
+import { GetAllOrdersPayload } from "interfaces/order.interface";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { getMyOrdersFetch, getOrdersFetch, orderActions } from "redux/slice/order.slice";
 

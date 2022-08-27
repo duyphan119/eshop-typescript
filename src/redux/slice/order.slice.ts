@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FetchState, GetAllResponse } from "interfaces/common";
-import { GetAllOrdersPayload, Order } from "interfaces/order";
+import { GetAllOrdersPayload, Order, UpdateOrderPayload } from "interfaces/order.interface";
 import { RootState } from "redux/store";
 interface OrderListState {
 	page: number;

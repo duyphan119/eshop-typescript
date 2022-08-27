@@ -27,6 +27,8 @@ const CategoryTypeList = React.lazy(() => import("pages/CategoryTypeList"));
 const OrderList = React.lazy(() => import("pages/OrderList"));
 const MyOrders = React.lazy(() => import("pages/MyOrders"));
 const Profile = React.lazy(() => import("pages/Profile"));
+const EditOrder = React.lazy(() => import("pages/EditOrder"));
+const CheckoutSuccess = React.lazy(() => import("pages/CheckoutSuccess"));
 
 export interface RouteType {
 	path: string;
@@ -53,6 +55,11 @@ export const privateRoutes: RouteType[] = [
 	{
 		path: config.routes.productList,
 		element: ProductList,
+		layout: DashboardLayout,
+	},
+	{
+		path: config.routes.editOrder,
+		element: EditOrder,
 		layout: DashboardLayout,
 	},
 	{
@@ -126,6 +133,11 @@ export const publicRoutes: RouteType[] = [
 	{
 		path: config.routes.checkout,
 		element: Cart,
+		layout: CartLayout,
+	},
+	{
+		path: config.routes.checkoutSuccess,
+		element: CheckoutSuccess,
 		layout: CartLayout,
 	},
 	{

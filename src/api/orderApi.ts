@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { CreateOrder, GetAllOrders } from "interfaces/order";
+import { CreateOrder, GetAllOrders, UpdateOrder } from "interfaces/order.interface";
 import { AppDispatch } from "redux/store";
 import { apiCallerWithToken } from "./apiCaller";
 
@@ -11,3 +11,9 @@ export const getMyOrders = (accessToken: string, dispatch: AppDispatch, params?:
 
 export const getOrders = (accessToken: string, dispatch: AppDispatch, params?: GetAllOrders): Promise<AxiosResponse> =>
 	apiCallerWithToken(accessToken, dispatch).get("order", { params });
+
+export const getOrderById = (accessToken: string, dispatch: AppDispatch, id: number): Promise<AxiosResponse> =>
+	apiCallerWithToken(accessToken, dispatch).get(`order/${id}`);
+
+export const updateOrder = (accessToken: string, dispatch: AppDispatch, id: number, data: UpdateOrder): Promise<AxiosResponse> =>
+	apiCallerWithToken(accessToken, dispatch).patch(`order/${id}`, data);

@@ -2,16 +2,16 @@
 	display: block;
 	width: 100%;
 	border: 1px solid #333f48;
+	position: relative;
 	color: #333f48;
 	font-weight: 500;
 	border-radius: 2px;
 	background-color: #fff;
 	height: 56px;
-	position: relative;
 	&:focus-within {
 		border: 1px solid #63b1bc;
 	}
-	input {
+	select {
 		border: none;
 		outline: none;
 		width: 100%;
@@ -19,6 +19,11 @@
 		line-height: 21px;
 		height: 100%;
 		padding: 25px 10px 7px 10px;
+		background-image: url(../../assets/icons/arrow-select.svg);
+		background-position: right 10px center;
+		background-size: 16px;
+		background-repeat: no-repeat;
+		appearance: none;
 	}
 	label {
 		font-size: 12px;

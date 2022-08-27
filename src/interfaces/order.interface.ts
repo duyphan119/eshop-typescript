@@ -1,7 +1,7 @@
 import React from "react";
 import { QueryParams, TokenPayload } from "./common";
 import { PaymentMethod } from "./paymentMethod";
-import { OrderStatus } from "./orderStatus";
+import { OrderStatus } from "./orderStatus.interface";
 import { Coupon } from "./coupon";
 import { OrderItem } from "./orderItem";
 
@@ -62,4 +62,8 @@ export type GetAllOrders = {} & QueryParams;
 
 export type GetAllOrdersPayload = {
 	params: GetAllOrders;
+} & TokenPayload;
+
+export type UpdateOrderPayload = {
+	data: UpdateOrder;
 } & TokenPayload;
